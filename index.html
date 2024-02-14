@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love Meter Calculator</title>
+
+    <style>
+        /* Global Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(45deg, #ff3c3c, #ff7e5f, #feb47b, #ffd5b2);
+
+            width:100vw;
+            font-family: "Quicksand", sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Calculator Styles */
+        .calculator-wrapper {
+            width: 600px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            display: flex;
+            justify-content: space-around;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        .calculator-body {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        fieldset {
+            margin: 0 auto;
+            border-radius: .5rem;
+            /* width: 100%; */
+            border: none;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px; /* Adjust the font size as needed */
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .gender-form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .gender-label {
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 20px;
+            padding: 0;
+            margin-bottom: 10px;
+            align-items: flex-start;
+            /* background-color: rgb(213, 150, 150); */
+            /* align-items: center; */
+        }
+
+        .radio-item {
+            display: flex;
+            align-items: center;
+            /* padding: 5px 10px 0px 5px; */
+            border-radius: 9px;
+        }
+
+        .radio-item input {
+            margin-right: 5px;
+            margin-bottom: 10px;
+        }
+
+        .separator {
+            position: relative;
+            display: inline-block;
+            width: 5px;
+            height: 425px;
+            background-color: #fb51a6;
+            border-radius: .4rem;
+        }
+
+        .separator::after {
+            content: "💞";
+            position: absolute;
+            top: 50%;
+            font-size: 1.7rem;
+            left: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform: translate(-50%, -50%);
+            width: 50px;
+            height: 50px;
+            background-color: white; /* Adjust the opacity as needed */
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        /* Button Styles */
+        .open-modal-button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 10px 20px;
+            transition: background-color 0.3s;
+        }
+
+        .close-modal-button {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 10px 20px;
+            transition: background-color 0.3s;
+        }
+
+        @media screen and (max-width: 760px) {
+            .calculator-wrapper {
+                flex-direction: column;
+            }
+
+            .separator {
+                width: 100%;
+                height: 10px; /* Adjust the height as needed */
+                margin: 20px 0; /* Add some space around the separator */
+            }
+
+            .separator::after {
+                width: 30px; /* Adjust the size of the heart icon */
+                height: 30px; /* Adjust the size of the heart icon */
+            }
+        }
+    </style>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+    <main style="display:flex; justify-content: center ;flex-direction:column; align-items: center;">
+        <section class="calculator-wrapper">
+            <fieldset>
+                <h1> You </h1>
+                <div class="form-group">
+                    <label for="your-name">Name:</label>
+                    <input type="text" id="your-name" name="your-name" style="width: 100%;" placeholder="Enter your name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="your-age">Age:</label>
+                    <input type="number" id="your-age" name="your-age" style="width: 100%;" placeholder="Enter your age" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="your-temperament">Temperament:</label>
+                    <select id="your-temperament" name="your-temperament" style="width: 100%;" required>
+                        <option value="introverted">Introverted</option>
+                        <option value="extroverted">Extroverted</option>
+                        <option value="balanced">Balanced</option>
+                    </select>
+                </div>
+
+                <!-- Gender -->
+                <label class="gender-label">Select your gender:</label>
+                <div class="radio-group">
+                    <div class="radio-item boy">
+                        <input type="radio" checked name="your-gender" id="your-male" value="male">
+                        <label for="your-male">Male</label>
+                    </div>
+                    <div class="radio-item girl">
+                        <input type="radio" name="your-gender" id="your-female" value="female">
+                        <label for="your-female">Female</label>
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="your-zodiac-sign">Zodiac Sign:</label>
+                    <select id="your-zodiac-sign" name="your-zodiac-sign" style="width: 100%;" required>
+                        <option value="aries">♈️ Aries</option>
+                        <option value="taurus">♉️ Taurus</option>
+                        <option value="gemini">♊️ Gemini</option>
+                        <option value="cancer">♋️ Cancer</option>
+                        <option value="leo">♌️ Leo</option>
+                        <option value="virgo">♍️ Virgo</option>
+                        <option value="libra">♎️ Libra</option>
+                        <option value="scorpio">♏️ Scorpio</option>
+                        <option value="sagittarius">♐️ Sagittarius</option>
+                        <option value="capricorn">♑️ Capricorn</option>
+                        <option value="aquarius">♒️ Aquarius</option>
+                        <option value="pisces">♓️ Pisces</option>
+                    </select>
+                </div>
+
+            </fieldset>
+
+            <!-- Seperator -->
+            <span class="separator"></span>
+            <!--           -->
+
+            <fieldset>
+                <h1> Partner </h1>
+                <div class="form-group">
+                    <label for="partner-name">Name:</label>
+                    <input type="text" id="partner-name" name="partner-name" style="width: 100%;" placeholder="Your partner's name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="partner-age">Age:</label>
+                    <input type="number" id="partner-age" name="partner-age" style="width: 100%;" placeholder="Your partner's age" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="partner-temperament">Temperament:</label>
+                    <select id="partner-temperament" name="partner-temperament" style="width:100%;" required>
+                        <option value="introverted">Introverted</option>
+                        <option value="extroverted">Extroverted</option>
+                        <option value="balanced">Balanced</option>
+                    </select>
+                </div>
+
+                <!-- Gender -->
+                <label class="gender-label">Select partner's gender:</label>
+                <div class="radio-group">
+                    <div class="radio-item boy">
+                        <input type="radio" name="partner-gender" id="partner-male" value="male">
+                        <label for="partner-male">Male</label>
+                    </div>
+                    <div class="radio-item girl">
+                        <input type="radio" checked name="partner-gender" id="partner-female" value="female">
+                        <label for="partner-female">Female</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="partner-zodiac-sign">Zodiac Sign:</label>
+                    <select id="partner-zodiac-sign" name="partner-zodiac-sign" style="width: 100%;" required>
+                        <option value="aries">♈️ Aries</option>
+                        <option value="taurus">♉️ Taurus</option>
+                        <option value="gemini">♊️ Gemini</option>
+                        <option value="cancer">♋️ Cancer</option>
+                        <option value="leo">♌️ Leo</option>
+                        <option value="virgo">♍️ Virgo</option>
+                        <option value="libra">♎️ Libra</option>
+                        <option value="scorpio">♏️ Scorpio</option>
+                        <option value="sagittarius">♐️ Sagittarius</option>
+                        <option value="capricorn">♑️ Capricorn</option>
+                        <option value="aquarius">♒️ Aquarius</option>
+                        <option value="pisces">♓️ Pisces</option>
+                    </select>
+                </div>
+
+            </fieldset>
+        </section>
+        <div class="modal" id="compatibilityModal">
+            <div class="modal-content">
+                <!-- Title with Flames Emoji -->
+                <div style="display: flex; align-items: center; justify-content: space-between;">
+                    <h2 style="margin: 0; font-size: 1.5em;">🔥 Compatibility Result 🔥</h2>
+                    <span style="cursor: pointer; font-size: 1.2em;" id="closeModalButton">&#10006;</span>
+                </div>
+        
+                <!-- Compatibility Details -->
+                <div style="margin-top: 20px;">
+                    <p style="font-size: 1.2em;">
+                        <h1>${yourDetails.name}</h1> (${yourDetails.age}, ${yourDetails.temperament}) and
+                        ${partnerDetails.name}</strong> (${partnerDetails.age}, ${partnerDetails.temperament})'s Compatibility is: <br>
+                       <strong>${compatibilityResult}</strong>
+                    </p>
+                </div>
+        
+                <!-- Additional Content (Feel free to add more sections or details here) -->
+                <div style="margin-top: 20px;">
+                    <!-- Add more content or details here -->
+                </div>
+        
+                <!-- Close Button -->
+                <button class="close-modal-button" id="closeModalButton" style="margin-top: 20px; padding: 10px 20px; background-color: #3498db; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; transition: background-color 0.3s;">Close</button>
+            </div>
+        </div>
+        
+
+        <div style="display: flex;overflow: hidden; width: 100%; flex-direction: column; align-items: center; margin: 0 auto; justify-content: center; padding: 0 20px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+            <!-- <p style="background-color: lightgrey; padding: 10px; border-radius: .2rem; margin-bottom: 20px; font-weight: bold;">Advance Check 🎯</p> -->
+
+            <button class="open-modal-button" id="discover-compatibility-button">
+                Discover Compatibility
+            </button>
+        </div>
+
+    </main>
+
+    <script src="./main.js"></script>
+</body>
+
+</html>
